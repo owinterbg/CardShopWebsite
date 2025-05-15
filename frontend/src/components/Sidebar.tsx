@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(true);
@@ -37,7 +38,10 @@ export default function Sidebar() {
       {!collapsed && (
         <nav style={{ marginTop: '50px', padding: '1rem' }}>
           <ul style={{ listStyle: 'none', padding: 0 }}>
-            <li><a href="/">Home</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/login">Login</Link></li>
+            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/profile">Profile</Link></li>
           </ul>
         </nav>
       )}

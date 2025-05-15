@@ -37,11 +37,14 @@ log "Starting Flask backend..."
     exit 1
   fi
 
-  export FLASK_APP=app.py
+  export FLASK_APP=run.py
   export FLASK_ENV=development
+  export PYTHONPATH=./backend
+
   flask run --debug --host=0.0.0.0 --port=5000
 ) &
 BACKEND_PID=$!
+
 
 # --- Start Frontend ---
 log "Starting React frontend..."
