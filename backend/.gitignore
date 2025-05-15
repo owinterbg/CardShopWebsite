@@ -1,2 +1,27 @@
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+*.venv
 venv/
+env/
+ENV/
+.Python
+
+# SQLite database
+app.db
+instance/app.db
+
+# Flask migration files (optional, you might want to track these)
+#migrations/
+
+# Environment/IDE
+*.log
+*.pot
+*.pyc
+*.DS_Store
+.env
+.flaskenv
+.vscode/
