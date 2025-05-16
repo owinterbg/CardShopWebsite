@@ -8,10 +8,9 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    avatar_url = db.Column(db.String(255))
-    bio = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.now)
+    avatar_url = db.Column(db.String, nullable=True)
+    bio = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         return f'<User {self.username}>'

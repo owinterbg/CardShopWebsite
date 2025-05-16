@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile } from '../../api/auth';
-import { setUser } from '../../redux/authSlice';
+import { setUser, clearUser } from '../../redux/authSlice';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,21 +13,22 @@ export default function ProfilePage() {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    // Redirect to login if no token
     if (!token) {
       navigate('/login');
       return;
     }
 
-    // Fetch and sync profile
-    if (!user) {
-      fetchUserProfile(token).then(res => {
-        if (res.username) {
-          dispatch(setUser(res));
-        }
+    fetchUserProfile(token)
+      .then(user => {
+        dispatch(setUser(user));
+      })
+      .catch(err => {
+        console.error("Failed to fetch profile:", err);
+        localStorage.removeItem("token");
+        dispatch(clearUser());
+        navigate('/login');
       });
-    }
-  }, [token, user, dispatch, navigate]);
+  }, [dispatch, navigate, token]);
 
   if (!isLoggedIn || !token) return <p>Redirecting to login...</p>;
   if (!user) return <p>Loading profile...</p>;

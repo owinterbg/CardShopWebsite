@@ -3,6 +3,7 @@ from app import db
 from app.models.user import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from utils.user_helpers import get_serialized_user_by_id
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/api')
 
@@ -36,20 +37,18 @@ def login():
         return jsonify({'error': 'Invalid credentials'}), 401
 
     token = create_access_token(identity=str(user.id))
-    return jsonify({'access_token': token}), 200
+    return jsonify({
+        'access_token': token,
+        'user': get_serialized_user_by_id(user.id)
+    }), 200
 
+# Get Profile
 @auth_bp.route('/profile', methods=['GET'])
 @jwt_required()
 def profile():
     try:
         user_id = get_jwt_identity()
-        user = User.query.get(user_id)
-        return jsonify({
-            'username': user.username,
-            'email': user.email,
-            'bio': user.bio,
-            'avatar_url': user.avatar_url
-        })
+        return jsonify(get_serialized_user_by_id(user_id))
     except Exception as e:
         return jsonify({'error': str(e)}), 422
 

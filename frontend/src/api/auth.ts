@@ -1,3 +1,6 @@
+import axios from "axios";
+import { User } from "../types/User";
+
 const API_BASE = 'http://localhost:5000/api';
 
 export async function registerUser(username: string, email: string, password: string) {
@@ -11,21 +14,18 @@ export async function registerUser(username: string, email: string, password: st
 }
 
 export async function loginUser(email: string, password: string) {
-  const res = await fetch(`${API_BASE}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  });
-
-  return res.json();
+  const res = await axios.post(`${API_BASE}/login`, { email, password });
+  return res.data;
 }
 
-export async function fetchUserProfile(token: string) {
-  const res = await fetch(`${API_BASE}/profile`, {
+export async function fetchUserProfile(token: string): Promise<User> {
+  if (!token) throw new Error('No auth token found');
+
+  const res = await axios.get<User>(`${API_BASE}/profile`, {
     headers: {
-      'Authorization': `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 
-  return res.json();
+  return res.data;
 }
