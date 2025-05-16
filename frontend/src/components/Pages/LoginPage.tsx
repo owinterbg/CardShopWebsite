@@ -1,9 +1,14 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../../api/auth';
+import { loginSuccess } from '../../redux/authSlice';
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -13,8 +18,8 @@ export default function LoginPage() {
     e.preventDefault();
     const res = await loginUser(form.email, form.password);
     if (res.access_token) {
-      localStorage.setItem('token', res.access_token);
-      window.location.href = '/profile';
+      dispatch(loginSuccess({ token: res.access_token }));
+      navigate('/profile');
     } else {
       setError(res.error || 'Login failed');
     }

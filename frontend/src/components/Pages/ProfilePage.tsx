@@ -1,32 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile } from '../../api/auth';
+import { setUser } from '../../redux/authSlice';
+import { RootState } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfilePage() {
-  const [profile, setProfile] = useState<any>(null);
-  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector((state: RootState) => state.auth.token);
+  const user = useSelector((state: RootState) => state.auth.user);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return setError('No token found');
+    // Redirect to login if no token
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
-    fetchUserProfile(token).then(res => {
-      if (res.username) {
-        setProfile(res);
-      } else {
-        setError(res.error || 'Failed to fetch profile');
-      }
-    });
-  }, []);
+    // Fetch and sync profile
+    if (!user) {
+      fetchUserProfile(token).then(res => {
+        if (res.username) {
+          dispatch(setUser(res));
+        }
+      });
+    }
+  }, [token, user, dispatch, navigate]);
 
-  if (error) return <p>{error}</p>;
-  if (!profile) return <p>Loading...</p>;
+  if (!isLoggedIn || !token) return <p>Redirecting to login...</p>;
+  if (!user) return <p>Loading profile...</p>;
 
   return (
     <div>
-      <h2>Welcome, {profile.username}</h2>
-      <p>Email: {profile.email}</p>
-      <p>Bio: {profile.bio}</p>
-      {profile.avatar_url && <img src={profile.avatar_url} alt="avatar" />}
+      <h2>Welcome, {user.username}</h2>
+      <p>Email: {user.email}</p>
+      <p>Bio: {user.bio}</p>
+      {user.avatar_url && <img src={user.avatar_url} alt="avatar" />}
     </div>
   );
 }

@@ -1,8 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/authSlice';
+import { RootState } from '../redux/store';
 
 export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+  const handleSignOut = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
     <div style={{
@@ -39,9 +50,27 @@ export default function Sidebar() {
         <nav style={{ marginTop: '50px', padding: '1rem' }}>
           <ul style={{ listStyle: 'none', padding: 0 }}>
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/register">Register</Link></li>
+            {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
+            {!isLoggedIn && <li><Link to="/register">Register</Link></li>}
             <li><Link to="/profile">Profile</Link></li>
+            {isLoggedIn && (
+              <li>
+                <button
+                  onClick={handleSignOut}
+                  style={{
+                    marginTop: '1rem',
+                    background: '#e74c3c',
+                    color: '#fff',
+                    border: 'none',
+                    padding: '8px 12px',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Sign Out
+                </button>
+              </li>
+            )}
           </ul>
         </nav>
       )}
