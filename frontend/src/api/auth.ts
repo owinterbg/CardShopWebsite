@@ -1,7 +1,8 @@
 import axios from "axios";
 import { User } from "../types/User";
 
-const API_BASE = process.env.REACT_APP_API_BASE_URL;
+const fallbackBase = `http://${window.location.hostname}:5000`;
+const API_BASE = process.env.REACT_APP_API_BASE_URL || fallbackBase;
 // OR for CRA: process.env.REACT_APP_API_BASE_URL
 
 

@@ -1,10 +1,11 @@
-import { Routes, Route } from 'react-router-dom';
-import Home from '../components/Pages/Home';
-import LoginPage from '../components/Pages/LoginPage';
-import RegisterPage from '../components/Pages/RegisterPage';
-import ProfilePage from '../components/Pages/ProfilePage';
-import CompareImages from '../components/Pages/CompareImages'; // ✅ NEW
-import MainLayout from '../layouts/MainLayout';
+import { Routes, Route } from "react-router-dom";
+import Home from "../components/Pages/Home";
+import LoginPage from "../components/Pages/LoginPage";
+import RegisterPage from "../components/Pages/RegisterPage";
+import ProfilePage from "../components/Pages/ProfilePage";
+import CompareImages from "../components/Pages/CompareImages"; // ✅ NEW
+import MainLayout from "../layouts/MainLayout";
+import PrivateRoute from "../components/Utility/PrivateRoute";
 
 export default function AppRoutes() {
   return (
@@ -36,17 +37,21 @@ export default function AppRoutes() {
       <Route
         path="/profile"
         element={
-          <MainLayout>
-            <ProfilePage />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <ProfilePage />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
       <Route
         path="/compare"
         element={
-          <MainLayout>
-            <CompareImages />
-          </MainLayout>
+          <PrivateRoute>
+            <MainLayout>
+              <CompareImages />
+            </MainLayout>
+          </PrivateRoute>
         }
       />
     </Routes>
