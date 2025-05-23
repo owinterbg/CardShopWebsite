@@ -56,7 +56,7 @@ log "Starting React frontend..."
     exit 1
   fi
 
-  npm start
+  npm start -- --host 0.0.0.0
 ) &
 FRONTEND_PID=$!
 

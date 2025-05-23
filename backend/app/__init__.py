@@ -39,5 +39,7 @@ def create_app():
     # Register blueprints
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp)
+    from app.routes.centering_routes import centering_bp
+    app.register_blueprint(centering_bp)
 
     return app

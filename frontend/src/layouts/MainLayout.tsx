@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import Sidebar from '../components/Sidebar';
+import Sidebar from '../components/Utility/Sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfile } from '../api/auth';
 import { setUser, clearUser } from '../redux/authSlice';

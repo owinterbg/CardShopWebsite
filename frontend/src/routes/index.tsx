@@ -3,6 +3,7 @@ import Home from '../components/Pages/Home';
 import LoginPage from '../components/Pages/LoginPage';
 import RegisterPage from '../components/Pages/RegisterPage';
 import ProfilePage from '../components/Pages/ProfilePage';
+import CompareImages from '../components/Pages/CompareImages'; // ✅ NEW
 import MainLayout from '../layouts/MainLayout';
 
 export default function AppRoutes() {
@@ -37,6 +38,14 @@ export default function AppRoutes() {
         element={
           <MainLayout>
             <ProfilePage />
+          </MainLayout>
+        }
+      />
+      <Route
+        path="/compare"
+        element={
+          <MainLayout>
+            <CompareImages />
           </MainLayout>
         }
       />

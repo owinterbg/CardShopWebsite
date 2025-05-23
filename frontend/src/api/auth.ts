@@ -1,7 +1,9 @@
 import axios from "axios";
 import { User } from "../types/User";
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = process.env.REACT_APP_API_BASE_URL;
+// OR for CRA: process.env.REACT_APP_API_BASE_URL
+
 
 export async function registerUser(username: string, email: string, password: string) {
   const res = await fetch(`${API_BASE}/register`, {
