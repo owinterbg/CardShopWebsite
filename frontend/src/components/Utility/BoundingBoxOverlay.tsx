@@ -41,7 +41,7 @@ const BoundingBoxOverlay: React.FC<Props> = ({ imageUrl, boxes, imageIndex, onBo
           }}
           bounds="parent"
           style={{
-            border: `2px solid ${colors[i % colors.length]}`,
+            border: `1px solid ${colors[i % colors.length]}`,
             position: 'absolute',
             boxSizing: 'border-box',
             cursor: 'move',

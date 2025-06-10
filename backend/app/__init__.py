@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -9,6 +9,11 @@ from flask_cors import CORS
 db = SQLAlchemy()
 migrate = Migrate()
 jwt = JWTManager()
+
+def uploaded_file(filename):
+    uploads_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'static', 'uploads'))
+    print(f"🟢 Serving image from: {uploads_dir}")
+    return send_from_directory(uploads_dir, filename)
 
 def create_app():
     app = Flask(__name__)
@@ -41,5 +46,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     from app.routes.centering_routes import centering_bp
     app.register_blueprint(centering_bp)
+    
+    app.add_url_rule('/api/uploads/<filename>', view_func=uploaded_file)
 
     return app

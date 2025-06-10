@@ -6,6 +6,8 @@ import ProfilePage from "../components/Pages/ProfilePage";
 import CompareImages from "../components/Pages/CompareImages"; // ✅ NEW
 import MainLayout from "../layouts/MainLayout";
 import PrivateRoute from "../components/Utility/PrivateRoute";
+import SavedCenteringsList from "../components/Pages/SavedCenteringsList"; // ✅ NEW
+import EditCentering from "../components/Pages/EditCentering";
 
 export default function AppRoutes() {
   return (
@@ -50,6 +52,26 @@ export default function AppRoutes() {
           <PrivateRoute>
             <MainLayout>
               <CompareImages />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/saved"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <SavedCenteringsList />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/edit/:id"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <EditCentering />
             </MainLayout>
           </PrivateRoute>
         }
